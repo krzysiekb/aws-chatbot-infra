@@ -25,7 +25,7 @@ jobs:
 
       - name: Get requirements.txt from Poetry
         run: |
-          poetry export -f requirements.txt --output requirements.txt
+          poetry export -f requirements.txt --output requirements.txt && cat requirements.txt
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
