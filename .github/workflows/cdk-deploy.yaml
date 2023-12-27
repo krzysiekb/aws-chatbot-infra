@@ -1,0 +1,28 @@
+name: Deploy Chatbot AWS Infra
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cdk-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ vars.AWS_GITHUB_ACTIONS_ROLE }}
+          aws-region: ${{ vars.AWS_REGION }}
+          role-session-name: "github-actions-cdk-deploy-chatbot"
+
+      - name: Deploy Chatbot Vpc
+        uses: youyo/aws-cdk-github-actions@v2
+        with:
+          cdk_subcommand: deploy
+          cdk_stack: ChatbotVpcStack
+          cdk_args: "--require-approval never"
+          actions_comment: false
