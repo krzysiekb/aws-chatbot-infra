@@ -17,7 +17,6 @@ jobs:
         with:
           role-to-assume: ${{ vars.AWS_GITHUB_ACTIONS_ROLE }}
           aws-region: ${{ vars.AWS_REGION }}
-          role-session-name: "github-actions-cdk-deploy-chatbot"
 
       - name: Deploy Chatbot Vpc
         uses: youyo/aws-cdk-github-actions@v2
