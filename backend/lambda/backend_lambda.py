@@ -1,12 +1,23 @@
 import json
 
+import boto3
+
 
 def handler(event, context):
-    print('request: {}'.format(json.dumps(event)))
+    body = event['body']
+    print('request: {}'.format(json.dumps(body)))
+
+    bedrock = boto3.client('bedrock-runtime')
+    response = bedrock.invoke_model(
+        modelId='amazon.titan-text-lite-v1',
+        contentType='application/json',
+        body=body
+    )
+
     return {
         'statusCode': 200,
         'headers': {
-            'Content-Type': 'text/plain'
+            'Content-Type': response['contentType']
         },
-        'body': 'Hello, CDK! You have hit {}\n'.format(event['path'])
+        'body': json.loads(response['body'])
     }

@@ -1,4 +1,4 @@
-from aws_cdk import Stack, aws_lambda, aws_apigateway
+from aws_cdk import Stack, aws_lambda, aws_apigateway, aws_iam
 from constructs import Construct
 
 
@@ -14,6 +14,14 @@ class BackendStack(Stack):
             code=aws_lambda.Code.from_asset("backend/lambda"),
         )
 
+        backend_lambda.add_to_role_policy(
+            aws_iam.PolicyStatement(
+                actions=["bedrock:InvokeModel"],
+                resources=["*"],
+                effect=aws_iam.Effect.ALLOW,
+            )
+        )
+
         backend_apigw = aws_apigateway.LambdaRestApi(
             scope=self,
             id="ChatbotBackendAPI",
@@ -22,5 +30,4 @@ class BackendStack(Stack):
 
         chatbot_res = backend_apigw.root.add_resource("chatbot")
 
-        chatbot_res.add_method("GET")
         chatbot_res.add_method("POST")
