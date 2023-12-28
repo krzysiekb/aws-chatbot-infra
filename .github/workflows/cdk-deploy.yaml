@@ -47,10 +47,6 @@ jobs:
         run: |
           cdk deploy ChatbotVpcStack --require-approval never
 
-#      - name: Deploy Chatbot Vpc
-#        uses: youyo/aws-cdk-github-actions@v2
-#        with:
-#          cdk_subcommand: deploy
-#          cdk_stack: ChatbotVpcStack
-#          cdk_args: "--require-approval never"
-#          actions_comment: false
+      - name: Deploy Chatbot Backend
+        run: |
+          cdk deploy ChatbotBackendStack --require-approval never
