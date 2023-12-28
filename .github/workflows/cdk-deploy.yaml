@@ -23,9 +23,19 @@ jobs:
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2
 
-      - name: Get requirements.txt from Poetry
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install CDK
         run: |
-          poetry export -f requirements.txt --output requirements.txt && cat requirements.txt
+          npm install -g aws-cdk
+
+      - name: Install dependencies
+        run: |
+          poetry export -f requirements.txt --output requirements.txt && \
+          pip install -r requirements.txt
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -34,9 +44,13 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Deploy Chatbot Vpc
-        uses: youyo/aws-cdk-github-actions@v2
-        with:
-          cdk_subcommand: deploy
-          cdk_stack: ChatbotVpcStack
-          cdk_args: "--require-approval never"
-          actions_comment: false
+        run: |
+          cdk deploy ChatbotVpcStack --require-approval never
+
+#      - name: Deploy Chatbot Vpc
+#        uses: youyo/aws-cdk-github-actions@v2
+#        with:
+#          cdk_subcommand: deploy
+#          cdk_stack: ChatbotVpcStack
+#          cdk_args: "--require-approval never"
+#          actions_comment: false
