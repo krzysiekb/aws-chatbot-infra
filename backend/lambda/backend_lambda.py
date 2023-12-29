@@ -37,6 +37,8 @@ def handler(event, context):
         'headers': {
             'Content-Type': 'application/json'
         },
-        'inputMessage': input_message,
-        'outputMessage': output_message
+        'body': {
+            'inputMessage': input_message,
+            'outputMessage': output_message,
+        }
     }
