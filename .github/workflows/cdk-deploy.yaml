@@ -30,6 +30,7 @@ jobs:
           pytest tests/
 
   cdk-deploy:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       id-token: write
