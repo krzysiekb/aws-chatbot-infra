@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry export -f requirements.txt --output requirements.txt && \
+          poetry export -f requirements.txt --output requirements.txt --with dev && \
           pip install -r requirements.txt
 
       - name: Test
