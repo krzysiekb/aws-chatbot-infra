@@ -33,12 +33,13 @@ def handler(event, context):
     output_message = response_body.get('results')[0].get('outputText')
 
     return {
+        'isBase64Encoded': False,
         'statusCode': 200,
         'headers': {
             'Content-Type': 'application/json'
         },
-        'body': {
+        'body': json.dumps({
             'inputMessage': input_message,
             'outputMessage': output_message,
-        }
+        })
     }
