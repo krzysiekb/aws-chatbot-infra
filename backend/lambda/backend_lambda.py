@@ -2,22 +2,41 @@ import json
 
 import boto3
 
+bedrock = boto3.client('bedrock-runtime')
+
 
 def handler(event, context):
-    body = event['body']
-    print('request: {}'.format(json.dumps(body)))
+    request = json.loads(event['body'])
+    print('request: {}'.format(json.dumps(request)))
 
-    bedrock = boto3.client('bedrock-runtime')
+    # Invoke the model
+    input_message = request.get('inputMessage')
+    body = json.dumps({
+        'inputText': input_message,
+        'textGenerationConfig': {
+            'temperature': 0.0,
+            'topP': 0.9,
+            'maxTokenCount': 300,
+        }
+    })
+
     response = bedrock.invoke_model(
         modelId='amazon.titan-text-lite-v1',
         contentType='application/json',
         body=body
     )
 
+    print('response: {}'.format(json.dumps(response)))
+
+    # Return the response
+    results = json.loads(response.get('body')).get('results')
+    output_message = results[0].get('outputText')
+
     return {
         'statusCode': 200,
         'headers': {
-            'Content-Type': response['contentType']
+            'Content-Type': 'application/json'
         },
-        'body': json.loads(response['body'])
+        'inputMessage': input_message,
+        'outputMessage': output_message
     }
