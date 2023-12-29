@@ -6,6 +6,29 @@ on:
       - main
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2
+
+      - name: Install dependencies
+        run: |
+          poetry export -f requirements.txt --output requirements.txt && \
+          pip install -r requirements.txt
+
+      - name: Test
+        run: |
+          pytest tests/
+
   cdk-deploy:
     runs-on: ubuntu-latest
     permissions:
