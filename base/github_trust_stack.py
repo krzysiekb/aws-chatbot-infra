@@ -1,5 +1,11 @@
 from aws_cdk import Stack, CfnParameter, CfnOutput
-from aws_cdk.aws_iam import CfnOIDCProvider, Role, FederatedPrincipal, PolicyStatement, Effect
+from aws_cdk.aws_iam import (
+    CfnOIDCProvider,
+    Role,
+    FederatedPrincipal,
+    PolicyStatement,
+    Effect,
+)
 from constructs import Construct
 
 
@@ -37,12 +43,11 @@ class GitHubTrustStack(Stack):
                     },
                     "StringLike": {
                         # subscriber is main branch of the defined repository
-                        "token.actions.githubusercontent.com:sub":
-                            f"repo:{github_org.value_as_string}/{github_repo.value_as_string}:ref:refs/heads/main"
-                    }
+                        "token.actions.githubusercontent.com:sub": f"repo:{github_org.value_as_string}/{github_repo.value_as_string}:ref:refs/heads/main"
+                    },
                 },
-                assume_role_action="sts:AssumeRoleWithWebIdentity"
-            )
+                assume_role_action="sts:AssumeRoleWithWebIdentity",
+            ),
         )
 
         # this policy allows GitHub Actions to assume the roles for:

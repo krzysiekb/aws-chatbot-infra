@@ -21,9 +21,7 @@ class BackendStack(Stack):
             runtime=aws_lambda.Runtime.PYTHON_3_11,
             handler="backend_lambda.handler",
             code=aws_lambda.Code.from_asset("backend/lambda"),
-            layers=[
-                backend_lambda_dependencies
-            ]
+            layers=[backend_lambda_dependencies],
         )
 
         backend_lambda.add_to_role_policy(
