@@ -25,12 +25,12 @@ def handler(event, context):
         contentType='application/json',
         body=body
     )
+    response_body = json.loads(response.get('body').read())
 
-    print('response: {}'.format(json.dumps(response)))
+    print('response: {}'.format(json.dumps(response_body)))
 
     # Return the response
-    results = json.loads(response.get('body')).get('results')
-    output_message = results[0].get('outputText')
+    output_message = response_body.get('results')[0].get('outputText')
 
     return {
         'statusCode': 200,
