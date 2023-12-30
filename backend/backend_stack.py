@@ -6,13 +6,13 @@ from constructs import Construct
 
 
 class BackendStack(Stack):
-    def __init__(self, scope: Construct, id: str, resource_path: str = "backend", **kwargs):
+    def __init__(self, scope: Construct, id: str, **kwargs):
         super().__init__(scope, id, **kwargs)
 
         backend_lambda_dependencies = PythonLayerVersion(
             scope=self,
             id="ChatbotBackendLambdaDependencies",
-            entry=os.path.join(resource_path, "lambda_dependencies"),
+            entry="backend/lambda_dependencies",
             compatible_runtimes=[aws_lambda.Runtime.PYTHON_3_11],
             removal_policy=RemovalPolicy.DESTROY,
         )
@@ -22,7 +22,7 @@ class BackendStack(Stack):
             id="ChatbotBackendLambda",
             runtime=aws_lambda.Runtime.PYTHON_3_11,
             handler="backend_lambda.handler",
-            code=aws_lambda.Code.from_asset(os.path.join(resource_path, "lambda")),
+            code=aws_lambda.Code.from_asset("backend/lambda"),
             layers=[backend_lambda_dependencies],
         )
 

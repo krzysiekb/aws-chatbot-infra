@@ -4,7 +4,7 @@ from backend.backend_stack import BackendStack
 
 
 def test_backend_stack(app: App):
-    backend_stack = BackendStack(app, "BackendStack", "../backend")
+    backend_stack = BackendStack(app, "BackendStack")
 
     template = assertions.Template.from_stack(backend_stack)
 
