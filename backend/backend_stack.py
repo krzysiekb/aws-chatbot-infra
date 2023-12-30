@@ -1,5 +1,3 @@
-import os.path
-
 from aws_cdk import Stack, aws_lambda, aws_apigateway, aws_iam, RemovalPolicy
 from aws_cdk.aws_lambda_python_alpha import PythonLayerVersion
 from constructs import Construct
