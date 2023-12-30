@@ -8,8 +8,6 @@ def test_backend_stack(app: App):
 
     template = assertions.Template.from_stack(backend_stack)
 
-    template_json = template.to_json()
-
     template.has_resource_properties(
         "AWS::Lambda::Function", {
             "Handler": "backend_lambda.handler",
