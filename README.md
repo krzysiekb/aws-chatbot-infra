@@ -2,6 +2,11 @@
 
 Repository contains simple chatbot, built using AWS Lambda and Amazon Bedrock.
 
+Project is deployed in AWS using combination of CDK and GitHub Actions. GitHub Actions are 
+authenticated with AWS account using OIDC. Trust relationship is established and Github Actions
+are allowed to assume roles created by CDK bootstrap in AWS Account. This enables CDK running 
+in GitHub Actions to deploy AWS resources.
+
 ## Deploy
 
 ### Setup AWS account
